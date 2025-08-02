@@ -1,0 +1,1 @@
+An AI-powered assistant that helps musicians understand and use complex synthesizers and drum machines by answering natural language questions grounded in official product manuals
