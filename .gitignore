@@ -1,7 +1,7 @@
 # Ignore node modules and build directories
 node_modules/
 dist/
-manuals/
+/manuals/
 backend/.env
 backend/venv
 frontend/.env.local
