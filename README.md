@@ -2,6 +2,13 @@
 
 An AI-powered assistant that helps musicians understand and use complex synthesizers and drum machines. Ask any question about your instrument in plain English and get answers grounded in the official manual — with the relevant hardware controls highlighted live on an image of the device.
 
+<img width="1292" height="978" alt="Screenshot 2026-04-05 at 6 20 30 PM" src="https://github.com/user-attachments/assets/5a482898-605b-4dd5-ac7d-15c8d22b010a" />
+
+<img width="1285" height="978" alt="Screenshot 2026-04-05 at 6 20 13 PM" src="https://github.com/user-attachments/assets/e01751dd-3361-4a1a-bda7-a8a887137ab2" />
+
+<img width="1287" height="1286" alt="Screenshot 2026-04-05 at 6 21 21 PM" src="https://github.com/user-attachments/assets/11b864be-2d57-4ccd-8f1b-6dad3583e039" />
+
+
 ## What it does
 
 - **Natural language Q&A** — ask anything about a supported instrument
