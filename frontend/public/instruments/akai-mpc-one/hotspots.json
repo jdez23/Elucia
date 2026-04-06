@@ -1,0 +1,23 @@
+{
+  "instrument": "akai-mpc-one",
+  "note": "Coordinates are percentages (0-100) of image width/height. Update these after placing main.jpg.",
+  "controls": [
+    { "id": "pads",             "label": "Pads",                  "x": 55.0, "y": 45.0, "w": 35.0, "h": 40.0 },
+    { "id": "touchscreen",      "label": "Touchscreen",           "x": 5.0,  "y": 10.0, "w": 42.0, "h": 55.0 },
+    { "id": "q-link-knobs",     "label": "Q-Link Knobs",          "x": 55.0, "y": 10.0, "w": 35.0, "h": 20.0 },
+    { "id": "main-volume",      "label": "Main Volume",           "x": 92.0, "y": 10.0, "w": 6.0,  "h": 10.0 },
+    { "id": "note-repeat",      "label": "Note Repeat",           "x": 5.0,  "y": 70.0, "w": 8.0,  "h": 8.0 },
+    { "id": "full-level",       "label": "Full Level",            "x": 15.0, "y": 70.0, "w": 8.0,  "h": 8.0 },
+    { "id": "16-level",         "label": "16 Level",              "x": 25.0, "y": 70.0, "w": 8.0,  "h": 8.0 },
+    { "id": "erase",            "label": "Erase",                 "x": 35.0, "y": 70.0, "w": 8.0,  "h": 8.0 },
+    { "id": "tap-tempo",        "label": "Tap Tempo",             "x": 45.0, "y": 70.0, "w": 8.0,  "h": 8.0 },
+    { "id": "play",             "label": "Play",                  "x": 5.0,  "y": 82.0, "w": 8.0,  "h": 8.0 },
+    { "id": "play-start",       "label": "Play Start",            "x": 15.0, "y": 82.0, "w": 8.0,  "h": 8.0 },
+    { "id": "stop",             "label": "Stop",                  "x": 25.0, "y": 82.0, "w": 8.0,  "h": 8.0 },
+    { "id": "rec",              "label": "Rec",                   "x": 35.0, "y": 82.0, "w": 8.0,  "h": 8.0 },
+    { "id": "overdub",          "label": "Overdub",               "x": 45.0, "y": 82.0, "w": 8.0,  "h": 8.0 },
+    { "id": "sample-edit",      "label": "Sample Edit",           "x": 5.0,  "y": 55.0, "w": 10.0, "h": 8.0 },
+    { "id": "program-edit",     "label": "Program Edit",          "x": 17.0, "y": 55.0, "w": 10.0, "h": 8.0 },
+    { "id": "menu",             "label": "Menu",                  "x": 29.0, "y": 55.0, "w": 10.0, "h": 8.0 }
+  ]
+}

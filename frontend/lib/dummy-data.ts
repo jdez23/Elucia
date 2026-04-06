@@ -1,0 +1,40 @@
+import type { Instrument } from '@/types/database'
+
+export const DUMMY_INSTRUMENTS: Instrument[] = [
+  {
+    id: '00000000-0000-0000-0000-000000000001',
+    slug: 'moog-grandmother',
+    name: 'Grandmother',
+    manufacturer: 'Moog',
+    category: 'synth',
+    description: 'A semi-modular analog synthesizer with a built-in spring reverb, arpeggiator, and sequencer. No patching required — but the patchbay opens a world of sonic experimentation.',
+    image_path: '/instruments/moog-grandmother/main.png',
+    manual_path: null,
+    is_published: true,
+    created_at: '',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000000002',
+    slug: 'akai-mpc-one',
+    name: 'MPC One',
+    manufacturer: 'Akai',
+    category: 'drum_machine',
+    description: 'Standalone music production center with MPC pads, a full sequencer, plugin instruments, and audio recording — all without a computer.',
+    image_path: '/instruments/akai-mpc-one/main.png',
+    manual_path: null,
+    is_published: true,
+    created_at: '',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000000003',
+    slug: 'elektron-digitakt',
+    name: 'Digitakt',
+    manufacturer: 'Elektron',
+    category: 'sampler',
+    description: 'An eight-track digital drum machine and sampler with Elektron\'s signature parameter locking and conditional triggering. Sample anything, sequence everything.',
+    image_path: '/instruments/elektron-digitakt/main.png',
+    manual_path: null,
+    is_published: true,
+    created_at: '',
+  },
+]

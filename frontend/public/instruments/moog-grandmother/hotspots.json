@@ -1,0 +1,26 @@
+{
+  "instrument": "moog-grandmother",
+  "note": "Coordinates are percentages (0-100) of image width/height. Update these after placing main.jpg.",
+  "controls": [
+    { "id": "vco1-freq",        "label": "VCO 1 Frequency",       "x": 5.0,  "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "vco1-wave",        "label": "VCO 1 Wave",            "x": 11.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "vco2-freq",        "label": "VCO 2 Frequency",       "x": 18.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "vco2-wave",        "label": "VCO 2 Wave",            "x": 24.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "mixer-osc1",       "label": "Mixer OSC 1",           "x": 31.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "mixer-osc2",       "label": "Mixer OSC 2",           "x": 37.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "mixer-noise",      "label": "Noise",                 "x": 44.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "filter-cutoff",    "label": "Filter Cutoff",         "x": 50.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "filter-resonance", "label": "Filter Resonance",      "x": 57.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "filter-eg-amount", "label": "Filter EG Amount",      "x": 63.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "env-attack",       "label": "Envelope Attack",       "x": 70.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "env-decay",        "label": "Envelope Decay",        "x": 76.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "env-sustain",      "label": "Envelope Sustain",      "x": 83.0, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "env-release",      "label": "Envelope Release",      "x": 89.5, "y": 20.0, "w": 5.5, "h": 9.0 },
+    { "id": "master-volume",    "label": "Master Volume",         "x": 5.0,  "y": 55.0, "w": 5.5, "h": 9.0 },
+    { "id": "glide",            "label": "Glide",                 "x": 11.5, "y": 55.0, "w": 5.5, "h": 9.0 },
+    { "id": "lfo-rate",         "label": "LFO Rate",              "x": 31.0, "y": 55.0, "w": 5.5, "h": 9.0 },
+    { "id": "lfo-wave",         "label": "LFO Wave",              "x": 37.5, "y": 55.0, "w": 5.5, "h": 9.0 },
+    { "id": "arp-on",           "label": "Arp On",                "x": 63.5, "y": 55.0, "w": 5.5, "h": 9.0 },
+    { "id": "spring-reverb",    "label": "Spring Reverb",         "x": 83.0, "y": 55.0, "w": 5.5, "h": 9.0 }
+  ]
+}
