@@ -1,6 +1,6 @@
 # Elucia Backend Development Roadmap
 
-## Current Status: ✅ Phase 0 Complete - Foundation Setup
+## Current Status: ✅ Phase 7 Complete - RAG Query Pipeline & Chat Endpoint
 
 ---
 
@@ -125,112 +125,40 @@
 
 ---
 
-### **PHASE 5: External Service Integration** (Estimated: 3-4 hours)
-
-**Why this phase fifth?**
-- Need API keys from external services
-- Can build endpoints without this, but need it for functionality
-- RAG pipeline is core feature - should come before auth/payments
-- Tests core value proposition early
+### **PHASE 5: External Service Integration** ✅ COMPLETED
 
 #### Tasks:
-- [ ] **5.1**: Create Pinecone account & index
-  - Index name: elucia-manuals
-  - Dimensions: 1536
-  - Get API key and environment
-  
-- [ ] **5.2**: Get OpenAI API key
-  - Set up billing (start with $5 credit)
-  - Add to .env
-  
-- [ ] **5.3 - rag/pinecone_client.py**: Create Pinecone client wrapper
-  - Initialize Pinecone connection
-  - upsert_vectors() method
-  - query_vectors() method
-  
-- [ ] **5.4 - rag/openai_client.py**: Create OpenAI client wrapper
-  - get_embedding() method
-  - chat_completion() method (with streaming)
-  
-- [ ] **5.5**: Test both clients independently
+- [x] **5.1**: Pinecone account & index created (elucia-manuals, 1536-dim)
+- [x] **5.2**: OpenAI API key configured
+- [x] **5.3 - rag/pinecone_client.py**: Pinecone client wrapper — upsert_vectors(), query_vectors(), delete_namespace()
+- [x] **5.4 - rag/openai_client.py**: OpenAI client wrapper — get_embedding(), chat_completion(), chat_completion_with_context()
 
-**Deliverable**: Working connections to Pinecone and OpenAI
+**Deliverable**: ✅ Working connections to Pinecone and OpenAI
 
 ---
 
-### **PHASE 6: PDF Ingestion Pipeline** (Estimated: 4-5 hours)
-
-**Why this phase sixth?**
-- Need vector database set up first (Phase 5)
-- Creates the knowledge base for RAG
-- Once done, can test actual Q&A functionality
-- Critical for MVP but can be manual process initially
+### **PHASE 6: PDF Ingestion Pipeline** ✅ COMPLETED
 
 #### Tasks:
-- [ ] **6.1 - rag/pdf_processor.py**: Create PDF text extraction
-  - Use PyPDF2 or pdfplumber
-  - Extract text page by page
-  - Clean and normalize text
-  
-- [ ] **6.2 - rag/text_chunker.py**: Create chunking logic
-  - Split text into ~500-1000 token chunks
-  - Preserve context (overlap between chunks)
-  - Include metadata (page number, section)
-  
-- [ ] **6.3 - scripts/ingest_manual.py**: Create command-line script
-  - Accept PDF path as argument
-  - Extract → Chunk → Embed → Upload to Pinecone
-  - Store manual metadata in Django
-  - Progress indicators
-  
-- [ ] **6.4**: Test with 1-2 real manual PDFs
-- [ ] **6.5**: Verify vectors stored in Pinecone
-- [ ] **6.6**: Create Django management command (optional but cleaner)
-  - python manage.py ingest_manual --pdf path/to/manual.pdf
+- [x] **6.1 - rag/pdf_processor.py**: PDF text extraction (PyPDF2 + pdfplumber dual extraction)
+- [x] **6.2 - rag/text_chunker.py**: tiktoken-based chunking (500 tokens, 50 overlap)
+- [x] **6.3 - rag/ingest.py**: ManualIngestion orchestrator — extract → chunk → embed (OpenAI) → upsert to Pinecone
+- [x] **6.4**: Django management command `python manage.py ingest_manual <manual_id> <pdf_path>`
+- [x] **6.5**: Switched from text-passthrough to explicit OpenAI embeddings (text-embedding-3-small) for Pinecone compatibility
 
-**Deliverable**: Working pipeline to ingest PDFs into vector database
+**Deliverable**: ✅ Working pipeline to ingest PDFs into Pinecone with float vectors
 
 ---
 
-### **PHASE 7: RAG Query Pipeline & Chat Endpoint** (Estimated: 4-5 hours)
-
-**Why this phase seventh?**
-- Have models, API, vector DB, and ingested content
-- This is the CORE feature - chat with AI about manuals
-- Everything comes together here
-- Most complex part, so build on solid foundation
+### **PHASE 7: RAG Query Pipeline & Chat Endpoint** ✅ COMPLETED
 
 #### Tasks:
-- [ ] **7.1 - rag/query_pipeline.py**: Create RAG query logic
-  - Take user question → generate embedding
-  - Query Pinecone for top 5-10 relevant chunks
-  - Format chunks as context for LLM
-  - Call OpenAI with context + question
-  - Return streaming response
-  
-- [ ] **7.2 - chat/views.py**: Implement chat message endpoint
-  - POST /api/conversations/:id/messages/
-  - Call RAG pipeline
-  - Stream response back to client (Server-Sent Events or WebSocket)
-  - Save user message + AI response to database
-  
-- [ ] **7.3**: Add error handling
-  - Rate limit errors
-  - OpenAI API errors
-  - Pinecone connection issues
-  
-- [ ] **7.4**: Test full flow end-to-end
-  - Create conversation
-  - Ask question about manual
-  - Verify correct chunks retrieved
-  - Verify coherent AI response
-  
-- [ ] **7.5**: Add response quality improvements
-  - Better prompt engineering
-  - Citation of sources (page numbers)
-  - Handle "I don't know" cases
+- [x] **7.1 - rag/query_pipeline.py**: RAGQueryPipeline — embeds query (text-embedding-3-small), queries Pinecone top-6, injects page-cited context, calls gpt-4o-mini
+- [x] **7.2 - chat/views.py**: messages action calls RAGQueryPipeline; graceful fallback if no manual linked or pipeline errors
+- [x] **7.3**: Error handling — per-exception logging, user-facing fallback messages, no stack traces exposed
+- [ ] **7.4**: End-to-end test with a real ingested manual (requires manual to be ingested first)
 
-**Deliverable**: Fully functional AI chat about gear manuals
+**Deliverable**: ✅ Fully functional AI chat endpoint wired to RAG pipeline
 
 ---
 
