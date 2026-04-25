@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cream palette — matches MiDiMe */
+    --cream: #f5f0e8;
+    --cream-dark: #ebe4d8;
+    --cream-deep: #ddd5c5;
+    --ink: #1a1714;
+    --ink-soft: #3d3830;
+    --ink-ghost: #8a8279;
+    --ink-whisper: #b5ada3;
+
+    /* Bioluminescent accents */
+    --bio-teal: #00c896;
+    --bio-teal-bright: #3fffd4;
+    --bio-cyan: #00b8d9;
+    --bio-green: #39ff85;
+    --bio-blue: #0ea5e9;
+    --bio-gradient: linear-gradient(135deg, #00c896 0%, #00b8d9 100%);
+    --bio-gradient-soft: linear-gradient(135deg, rgba(0,200,150,0.15) 0%, rgba(0,184,217,0.15) 100%);
+
+    --bio-teal-soft: rgba(0, 200, 150, 0.08);
+    --bio-teal-glow: rgba(63, 255, 212, 0.45);
+    --bio-teal-luminous: rgba(63, 255, 212, 0.7);
+    --bio-blue-soft: rgba(14, 165, 233, 0.1);
+    --bio-cyan-soft: rgba(0, 184, 217, 0.1);
+
+    /* Ambient blobs */
+    --blob-a: rgba(0, 200, 150, 0.22);
+    --blob-b: rgba(0, 184, 217, 0.18);
+
+    /* Shadcn compat */
+    --background: 245 240 232;
+    --foreground: 26 23 20;
+    --card: 235 228 216;
+    --card-foreground: 26 23 20;
+    --primary: 10 122 110;
+    --primary-foreground: 245 240 232;
+    --secondary: 221 213 197;
+    --secondary-foreground: 61 56 48;
+    --muted: 221 213 197;
+    --muted-foreground: 138 130 121;
+    --border: 26 23 20 / 0.1;
+    --input: 235 228 216;
+    --ring: 10 122 110;
+    --radius: 0.75rem;
+    --destructive: 220 38 38;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Ambient bioluminescent blobs — same as MiDiMe */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    right: -10%;
+    width: 55vw;
+    height: 55vw;
+    border-radius: 48% 52% 68% 32% / 42% 58% 42% 58%;
+    background: radial-gradient(ellipse at 40% 40%, var(--blob-a), transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    animation: blobDrift 22s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -15%;
+    left: -15%;
+    width: 50vw;
+    height: 50vw;
+    border-radius: 62% 38% 46% 54% / 52% 36% 64% 48%;
+    background: radial-gradient(ellipse at 60% 60%, var(--blob-b), transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    animation: blobDrift 28s ease-in-out infinite alternate-reverse;
+    z-index: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+/* Film grain overlay */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Page wrapper */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section header — identical to MiDiMe */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--ink-whisper), transparent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-whisper);
+  border-radius: 2px;
+}
+
+@keyframes blobDrift {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(3%, -2%) rotate(5deg) scale(1.05);
+  }
+  66% {
+    transform: translate(-2%, 3%) rotate(-3deg) scale(0.95);
+  }
+  100% {
+    transform: translate(1%, 1%) rotate(2deg) scale(1.02);
+  }
+}
+
+/* Carousel card — portrait on mobile (instrument fills the frame nicely),
+   landscape on sm+ (hardware instruments are wide panels) */
+.carousel-card-image {
+  aspect-ratio: 3 / 4;
+}
+
+@media (min-width: 640px) {
+  .carousel-card-image {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
