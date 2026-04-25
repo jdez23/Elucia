@@ -1,7 +1,35 @@
-# Ignore node modules and build directories
+# Dependencies
 node_modules/
 dist/
-/manuals/
+backend/venv/
+
+# Environment files
 backend/.env
-backend/venv
 frontend/.env.local
+*.env
+
+# macOS
+.DS_Store
+**/.DS_Store
+*.icloud
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Django
+backend/staticfiles/
+backend/db.sqlite3
+
+# Scripts venv
+scripts/venv/
+
+# Manuals (large PDF files)
+/manuals/
+
+# Build
+.next/
