@@ -14,10 +14,11 @@
     --ink-whisper: #b5ada3;
 
     /* Accents — blue/indigo gradient */
+    /* Legacy token names preserved — values updated to blue/indigo palette */
     --bio-teal: #0ea5e9;
     --bio-teal-bright: #6366f1;
-    --bio-cyan: #0ea5e9;
-    --bio-green: #0ea5e9;
+    --bio-cyan: #38bdf8;
+    --bio-green: #818cf8;
     --bio-blue: #6366f1;
     --bio-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
     --bio-gradient-soft: linear-gradient(135deg, rgba(14,165,233,0.12) 0%, rgba(99,102,241,0.12) 100%);
@@ -29,8 +30,8 @@
     --bio-cyan-soft: rgba(99, 102, 241, 0.08);
 
     /* Ambient blobs */
-    --blob-a: rgba(0, 200, 150, 0.22);
-    --blob-b: rgba(0, 184, 217, 0.18);
+    --blob-a: rgba(14, 165, 233, 0.18);
+    --blob-b: rgba(99, 102, 241, 0.14);
 
     /* Shadcn compat */
     --background: 245 240 232;
