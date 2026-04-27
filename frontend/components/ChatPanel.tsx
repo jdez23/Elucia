@@ -170,7 +170,7 @@ export function ChatPanel({
             placeholder={`Ask anything about the ${instrumentName}…`}
             rows={2}
             disabled={isLoading}
-            className="flex-1 resize-none font-mono rounded-lg px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
+            className="flex-1 resize-none rounded-lg px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
             style={{
               fontSize: '14px',
               color: 'var(--ink)',
@@ -178,8 +178,8 @@ export function ChatPanel({
               border: '1px solid rgba(26,23,20,0.1)',
             }}
             onFocus={(e) => {
-              e.currentTarget.style.borderColor = 'var(--bio-teal)'
-              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(10,122,110,0.08)'
+              e.currentTarget.style.borderColor = '#0ea5e9'
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(14,165,233,0.15)'
             }}
             onBlur={(e) => {
               e.currentTarget.style.borderColor = 'rgba(26,23,20,0.1)'
@@ -191,8 +191,17 @@ export function ChatPanel({
             disabled={isLoading || !input.trim()}
             className="shrink-0 h-[60px] w-[52px] rounded-lg flex items-center justify-center transition-all duration-200 disabled:opacity-30"
             style={{
-              background: 'var(--bio-teal)',
-              color: 'var(--cream)',
+              background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
+              color: '#ffffff',
+              boxShadow: '0 0 14px rgba(14,165,233,0.35), 0 0 28px rgba(99,102,241,0.18)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 22px rgba(14,165,233,0.55), 0 0 44px rgba(99,102,241,0.28)'
+              e.currentTarget.style.transform = 'scale(1.05)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 14px rgba(14,165,233,0.35), 0 0 28px rgba(99,102,241,0.18)'
+              e.currentTarget.style.transform = 'scale(1)'
             }}
           >
             {isLoading || isExtracting ? (
@@ -243,8 +252,8 @@ function EmptyState({
           Ask me anything
         </p>
         <p
-          className="font-mono mt-2 leading-relaxed"
-          style={{ fontSize: '11px', color: 'var(--ink-ghost)', letterSpacing: '0.3px' }}
+          className="mt-2 leading-relaxed"
+          style={{ fontSize: '13px', color: 'var(--ink-ghost)', letterSpacing: '0.2px' }}
         >
           about the {instrumentName}
           <br />
@@ -256,9 +265,9 @@ function EmptyState({
           <button
             key={s.label}
             onClick={() => onSuggestionClick(s.prompt)}
-            className="text-left rounded-lg px-3 py-2.5 font-mono transition-all duration-200"
+            className="text-left rounded-lg px-3 py-2.5 transition-all duration-200"
             style={{
-              fontSize: '11px',
+              fontSize: '13px',
               color: 'var(--ink-soft)',
               background: 'var(--cream-dark)',
               border: '1px solid rgba(26,23,20,0.08)',

@@ -16,10 +16,10 @@ const CATEGORY_LABELS: Record<string, string> = {
 }
 
 const ARROW_WIDTH = 44   // px reserved for each arrow column
-const CARD_WIDTH   = '60%'
+const CARD_WIDTH   = '70%'
 const SIDE_SCALE   = 0.72
 const SIDE_OPACITY = 0.40
-const X_OFFSET     = 65  // % of card width per position step
+const X_OFFSET     = 60  // % of card width per position step
 
 interface Props {
   instruments: Instrument[]
@@ -60,7 +60,8 @@ export function InstrumentCarousel({ instruments }: Props) {
             className="flex items-center justify-center rounded-full transition-all duration-200"
             style={{
               width: '32px', height: '32px',
-              background: 'var(--cream-dark)',
+              background: '#ffffff',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
               border: '1px solid rgba(26,23,20,0.12)',
               cursor: 'pointer',
               color: 'var(--ink-ghost)',
@@ -113,10 +114,9 @@ export function InstrumentCarousel({ instruments }: Props) {
                     className="block w-full overflow-hidden rounded-2xl"
                     style={{
                       background: '#ffffff',
-                      border: '1px solid rgba(26,23,20,0.08)',
                       boxShadow: isCenter
-                        ? '0 8px 40px rgba(26,23,20,0.10), 0 2px 8px rgba(26,23,20,0.06)'
-                        : 'none',
+                        ? '0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)'
+                        : '0 1px 4px rgba(0,0,0,0.04)',
                       cursor: 'pointer',
                       transition: 'box-shadow 0.3s',
                     }}
@@ -149,24 +149,18 @@ export function InstrumentCarousel({ instruments }: Props) {
 
                     {/* Info strip */}
                     <div className="px-4 py-3">
-                      <p
-                        className="font-mono uppercase mb-0.5"
-                        style={{ fontSize: '9px', letterSpacing: '3px', color: 'var(--ink-ghost)' }}
-                      >
-                        {instrument.manufacturer}
-                      </p>
-                      <div className="flex items-center justify-between gap-3">
-                        <h2
-                          className="font-display italic leading-tight"
-                          style={{ fontSize: '20px', color: 'var(--ink)' }}
+                      <div className="flex items-start justify-between gap-2 mb-0.5">
+                        <p
+                          className="font-mono uppercase"
+                          style={{ fontSize: '10px', letterSpacing: '2px', color: 'var(--ink-ghost)' }}
                         >
-                          {instrument.name}
-                        </h2>
+                          {instrument.manufacturer}
+                        </p>
                         <span
                           className="font-mono uppercase rounded-full shrink-0"
                           style={{
-                            fontSize: '8px',
-                            letterSpacing: '2px',
+                            fontSize: '9px',
+                            letterSpacing: '1.5px',
                             color: 'var(--ink-ghost)',
                             border: '1px solid rgba(26,23,20,0.12)',
                             padding: '2px 8px',
@@ -174,6 +168,14 @@ export function InstrumentCarousel({ instruments }: Props) {
                         >
                           {CATEGORY_LABELS[instrument.category] ?? instrument.category}
                         </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <h2
+                          className="font-display italic leading-tight min-w-0 truncate"
+                          style={{ fontSize: '22px', color: 'var(--ink)' }}
+                        >
+                          {instrument.name}
+                        </h2>
                       </div>
 
                       <AnimatePresence mode="wait">
@@ -184,8 +186,8 @@ export function InstrumentCarousel({ instruments }: Props) {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="mt-3 font-mono uppercase"
-                            style={{ fontSize: '10px', letterSpacing: '2px', color: 'var(--ink)' }}
+                            className="mt-2 font-mono uppercase"
+                            style={{ fontSize: '11px', letterSpacing: '2px', color: 'var(--ink)' }}
                           >
                             Explore →
                           </motion.p>
@@ -210,7 +212,8 @@ export function InstrumentCarousel({ instruments }: Props) {
             className="flex items-center justify-center rounded-full transition-all duration-200"
             style={{
               width: '32px', height: '32px',
-              background: 'var(--cream-dark)',
+              background: '#ffffff',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
               border: '1px solid rgba(26,23,20,0.12)',
               cursor: 'pointer',
               color: 'var(--ink-ghost)',
@@ -238,7 +241,7 @@ export function InstrumentCarousel({ instruments }: Props) {
               width: i === active ? '20px' : '6px',
               height: '6px',
               borderRadius: '3px',
-              background: i === active ? 'var(--ink)' : 'var(--ink-whisper)',
+              background: i === active ? 'var(--bio-teal)' : 'var(--ink-whisper)',
               border: 'none',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
