@@ -214,7 +214,7 @@ export function InstrumentHub({ instrument, content }: Props) {
                     style={{ background: 'var(--ink)' }}
                   />
                   <p
-                    className="font-mono leading-relaxed"
+                    className="leading-relaxed"
                     style={{ fontSize: '13px', color: 'var(--ink-ghost)' }}
                   >
                     {bullet}
