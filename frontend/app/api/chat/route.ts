@@ -1,4 +1,4 @@
-import { createAnthropic } from '@ai-sdk/anthropic'
+import { createOpenAI } from '@ai-sdk/openai'
 import { streamText } from 'ai'
 import { z } from 'zod'
 import { embedQuery, retrieveChunks, assembleContext, buildSystemPrompt } from '@/lib/ai/rag'
@@ -8,7 +8,7 @@ import { DUMMY_INSTRUMENTS } from '@/lib/dummy-data'
 
 export const maxDuration = 30
 
-const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
 const RequestSchema = z.object({
   messages: z.array(
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
 
     // Stream response
     const result = streamText({
-      model: anthropic('claude-sonnet-4-6'),
+      model: openai('gpt-4o-mini'),
       system: systemPrompt,
       messages,
       maxTokens: 1024,

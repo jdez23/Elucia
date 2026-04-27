@@ -114,6 +114,37 @@ export function ChatPanel({
               isStreaming={isLoading && m.role === 'assistant' && m === messages.at(-1)}
             />
           ))}
+
+          {isLoading && messages.at(-1)?.role === 'user' && (
+            <motion.div
+              key="typing"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.2 }}
+              className="flex justify-start"
+            >
+              <div
+                className="rounded-2xl px-4 py-3 flex gap-1.5 items-center"
+                style={{
+                  background: 'var(--cream-dark)',
+                  border: '1px solid rgba(26,23,20,0.08)',
+                  borderBottomLeftRadius: '4px',
+                }}
+              >
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="block w-1.5 h-1.5 rounded-full animate-bounce"
+                    style={{
+                      background: 'var(--ink-whisper)',
+                      animationDelay: `${i * 0.15}s`,
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {error && (
@@ -141,7 +172,7 @@ export function ChatPanel({
             disabled={isLoading}
             className="flex-1 resize-none font-mono rounded-lg px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
             style={{
-              fontSize: '12px',
+              fontSize: '14px',
               color: 'var(--ink)',
               background: 'var(--cream-dark)',
               border: '1px solid rgba(26,23,20,0.1)',

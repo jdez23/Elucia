@@ -69,7 +69,7 @@ export function Learningsurface({ instrument, initialPrompt }: Props) {
 
         {/* Left: instrument visual */}
         <div
-          className="sm:w-3/5 flex flex-col justify-center sm:overflow-y-auto"
+          className="sm:w-1/2 flex flex-col justify-center sm:overflow-y-auto"
           style={{ padding: '30px', borderRight: '1px solid rgba(26,23,20,0.06)' }}
         >
           <InstrumentVisual
@@ -88,7 +88,7 @@ export function Learningsurface({ instrument, initialPrompt }: Props) {
         </div>
 
         {/* Right: chat */}
-        <div className="sm:w-2/5 flex flex-col min-h-0 sm:h-[calc(100vh-65px)]">
+        <div className="sm:w-1/2 flex flex-col min-h-0 sm:h-[calc(100vh-65px)]">
           <ChatPanel
             instrumentId={instrument.id}
             instrumentName={`${instrument.manufacturer} ${instrument.name}`}
