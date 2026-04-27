@@ -29,7 +29,7 @@ export function InstrumentHub({ instrument, content }: Props) {
         className="flex items-center gap-4 py-4 shrink-0"
         style={{
           borderBottom: '1px solid rgba(26,23,20,0.08)',
-          background: 'rgba(245,240,232,0.85)',
+          background: 'rgba(245,244,241,0.85)',
           backdropFilter: 'blur(12px)',
           position: 'sticky',
           top: 0,
@@ -164,7 +164,7 @@ export function InstrumentHub({ instrument, content }: Props) {
                   >
                     <span
                       className="font-mono uppercase block mb-0.5"
-                      style={{ fontSize: '10px', letterSpacing: '2px', color: 'var(--ink)' }}
+                      style={{ fontSize: '10px', letterSpacing: '2px', color: 'var(--bio-teal)' }}
                     >
                       {sp.label}
                     </span>
@@ -231,7 +231,7 @@ export function InstrumentHub({ instrument, content }: Props) {
         className="sm:hidden fixed bottom-0 inset-x-0"
         style={{
           padding: '30px',
-          background: 'rgba(245,240,232,0.95)',
+          background: 'rgba(245,244,241,0.95)',
           backdropFilter: 'blur(12px)',
           borderTop: '1px solid rgba(26,23,20,0.08)',
           zIndex: 50,

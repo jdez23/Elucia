@@ -60,7 +60,8 @@ export function InstrumentCarousel({ instruments }: Props) {
             className="flex items-center justify-center rounded-full transition-all duration-200"
             style={{
               width: '32px', height: '32px',
-              background: 'var(--cream-dark)',
+              background: '#ffffff',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
               border: '1px solid rgba(26,23,20,0.12)',
               cursor: 'pointer',
               color: 'var(--ink-ghost)',
@@ -211,7 +212,8 @@ export function InstrumentCarousel({ instruments }: Props) {
             className="flex items-center justify-center rounded-full transition-all duration-200"
             style={{
               width: '32px', height: '32px',
-              background: 'var(--cream-dark)',
+              background: '#ffffff',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
               border: '1px solid rgba(26,23,20,0.12)',
               cursor: 'pointer',
               color: 'var(--ink-ghost)',

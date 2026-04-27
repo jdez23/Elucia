@@ -25,7 +25,6 @@ export function MessageBubble({ message, isStreaming }: Props) {
           fontSize: '14px',
           ...(isUser
             ? {
-                fontFamily: 'var(--font-mono)',
                 background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
                 color: '#ffffff',
                 borderBottomRightRadius: '4px',
