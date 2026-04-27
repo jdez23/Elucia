@@ -129,7 +129,7 @@ export function InstrumentHub({ instrument, content }: Props) {
               <div className="section-line" />
             </div>
             <p
-              className="font-mono mb-5"
+              className="mb-5"
               style={{ fontSize: '13px', color: 'var(--ink-ghost)', letterSpacing: '0.2px' }}
             >
               Click a question to open the chat with an instant answer.
@@ -144,7 +144,7 @@ export function InstrumentHub({ instrument, content }: Props) {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2, delay: 0.1 + i * 0.05 }}
                     onClick={() => openChat(sp.prompt)}
-                    className="w-full text-left rounded-lg px-4 py-3 font-mono transition-all duration-200 group"
+                    className="w-full text-left rounded-lg px-4 py-3 transition-all duration-200 group"
                     style={{
                       fontSize: '13px',
                       color: 'var(--ink-soft)',
@@ -175,7 +175,7 @@ export function InstrumentHub({ instrument, content }: Props) {
             ) : (
               <button
                 onClick={() => openChat()}
-                className="w-full rounded-lg px-4 py-3 font-mono transition-all duration-200"
+                className="w-full rounded-lg px-4 py-3 transition-all duration-200"
                 style={{
                   fontSize: '11px',
                   color: 'var(--cream)',
@@ -239,7 +239,7 @@ export function InstrumentHub({ instrument, content }: Props) {
       >
         <button
           onClick={() => openChat()}
-          className="w-full rounded-lg py-3.5 font-mono uppercase transition-all duration-200 hover:opacity-90"
+          className="w-full rounded-lg py-3.5 transition-all duration-200 hover:opacity-90"
           style={{
             fontSize: '12px',
             letterSpacing: '3px',

@@ -170,7 +170,7 @@ export function ChatPanel({
             placeholder={`Ask anything about the ${instrumentName}…`}
             rows={2}
             disabled={isLoading}
-            className="flex-1 resize-none font-mono rounded-lg px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
+            className="flex-1 resize-none rounded-lg px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
             style={{
               fontSize: '14px',
               color: 'var(--ink)',
@@ -252,7 +252,7 @@ function EmptyState({
           Ask me anything
         </p>
         <p
-          className="font-mono mt-2 leading-relaxed"
+          className="mt-2 leading-relaxed"
           style={{ fontSize: '13px', color: 'var(--ink-ghost)', letterSpacing: '0.2px' }}
         >
           about the {instrumentName}
@@ -265,7 +265,7 @@ function EmptyState({
           <button
             key={s.label}
             onClick={() => onSuggestionClick(s.prompt)}
-            className="text-left rounded-lg px-3 py-2.5 font-mono transition-all duration-200"
+            className="text-left rounded-lg px-3 py-2.5 transition-all duration-200"
             style={{
               fontSize: '13px',
               color: 'var(--ink-soft)',

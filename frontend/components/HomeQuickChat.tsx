@@ -51,7 +51,7 @@ export function HomeQuickChat({ instruments }: Props) {
           <button
             key={`${chip.slug}-${chip.label}`}
             onClick={() => submit(chip.prompt, chip.slug)}
-            className="font-mono rounded-full transition-all duration-200 flex items-center gap-1.5 shrink-0"
+            className="rounded-full transition-all duration-200 flex items-center gap-1.5 shrink-0"
             style={{
               fontSize: '12px',
               letterSpacing: '0.5px',
@@ -139,7 +139,7 @@ export function HomeQuickChat({ instruments }: Props) {
                 : 'Select an instrument above…'
             }
             rows={3}
-            className="flex-1 resize-none font-mono rounded-xl px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
+            className="flex-1 resize-none rounded-xl px-4 py-3 outline-none transition-all duration-200 leading-relaxed"
             style={{
               fontSize: '14px',
               color: 'var(--ink)',
