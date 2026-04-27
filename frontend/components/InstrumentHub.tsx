@@ -130,7 +130,7 @@ export function InstrumentHub({ instrument, content }: Props) {
             </div>
             <p
               className="font-mono mb-5"
-              style={{ fontSize: '11px', color: 'var(--ink-ghost)', letterSpacing: '0.3px' }}
+              style={{ fontSize: '13px', color: 'var(--ink-ghost)', letterSpacing: '0.2px' }}
             >
               Click a question to open the chat with an instant answer.
             </p>
@@ -146,25 +146,25 @@ export function InstrumentHub({ instrument, content }: Props) {
                     onClick={() => openChat(sp.prompt)}
                     className="w-full text-left rounded-lg px-4 py-3 font-mono transition-all duration-200 group"
                     style={{
-                      fontSize: '11px',
+                      fontSize: '13px',
                       color: 'var(--ink-soft)',
-                      background: 'var(--cream-dark)',
-                      border: '1px solid rgba(26,23,20,0.08)',
+                      background: '#ffffff',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
                       cursor: 'pointer',
                       borderLeft: '2px solid transparent',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderLeftColor = 'var(--ink)'
-                      e.currentTarget.style.background = 'var(--cream-deep)'
+                      e.currentTarget.style.borderLeftColor = 'var(--bio-teal)'
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(14,165,233,0.12)'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.borderLeftColor = 'transparent'
-                      e.currentTarget.style.background = 'var(--cream-dark)'
+                      e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)'
                     }}
                   >
                     <span
                       className="font-mono uppercase block mb-0.5"
-                      style={{ fontSize: '9px', letterSpacing: '2px', color: 'var(--ink)' }}
+                      style={{ fontSize: '10px', letterSpacing: '2px', color: 'var(--ink)' }}
                     >
                       {sp.label}
                     </span>
@@ -199,8 +199,8 @@ export function InstrumentHub({ instrument, content }: Props) {
             <div
               className="rounded-xl p-5 space-y-3"
               style={{
-                background: 'var(--cream-dark)',
-                border: '1px solid rgba(26,23,20,0.07)',
+                background: '#ffffff',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04)',
               }}
             >
               {[
@@ -215,7 +215,7 @@ export function InstrumentHub({ instrument, content }: Props) {
                   />
                   <p
                     className="font-mono leading-relaxed"
-                    style={{ fontSize: '11px', color: 'var(--ink-ghost)' }}
+                    style={{ fontSize: '13px', color: 'var(--ink-ghost)' }}
                   >
                     {bullet}
                   </p>
@@ -241,7 +241,7 @@ export function InstrumentHub({ instrument, content }: Props) {
           onClick={() => openChat()}
           className="w-full rounded-lg py-3.5 font-mono uppercase transition-all duration-200 hover:opacity-90"
           style={{
-            fontSize: '11px',
+            fontSize: '12px',
             letterSpacing: '3px',
             background: 'var(--ink)',
             color: 'var(--cream)',
