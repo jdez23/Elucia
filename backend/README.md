@@ -1,121 +1,123 @@
 # Elucia Backend
 
-Django 4.2 REST API powering AI-assisted music gear manual chat via a RAG pipeline (OpenAI embeddings + Pinecone vector search + GPT-4o-mini).
+Django 4.2 REST API powering the Elucia RAG pipeline — OpenAI embeddings stored in Pinecone, retrieved at query time, and fed to `gpt-4o-mini` for manual-grounded answers.
+
+Deployed on **Railway** (`main` branch auto-deploys).
 
 ---
 
-## Environment Variables
+## Stack
+
+| | |
+|---|---|
+| Framework | Django 4.2 + Django REST Framework |
+| Database | PostgreSQL via Supabase |
+| Auth | Supabase Auth |
+| Vector store | Pinecone (cosine similarity, 1536 dimensions) |
+| Embeddings | OpenAI `text-embedding-3-small` |
+| Completions | OpenAI `gpt-4o-mini` |
+| PDF processing | pdfplumber + PyPDF2 |
+
+---
+
+## Environment variables
 
 All variables live in `backend/.env`. The file is gitignored — never commit it.
 
 ### Required
 
-| Variable | Description | Status |
-|---|---|---|
-| `SECRET_KEY` | Django secret key | ⚠️ Replace the current value before any production deploy |
-| `DJANGO_SETTINGS_MODULE` | Settings module to load | Set to `elucia.settings.development` |
-| `DB_NAME` | PostgreSQL database name | Set |
-| `DB_USER` | PostgreSQL user | Set |
-| `DB_PASSWORD` | PostgreSQL password | Set |
-| `DB_HOST` | PostgreSQL host | Set (`localhost`) |
-| `DB_PORT` | PostgreSQL port | Set (`5432`) |
-| `OPENAI_API_KEY` | OpenAI API key — used for embeddings (`text-embedding-3-small`) and chat completions (`gpt-4o-mini`) | Set |
-| `PINECONE_API_KEY` | Pinecone API key | Set |
-| `PINECONE_ENVIRONMENT` | Pinecone environment region | Set |
-| `PINECONE_INDEX_NAME` | Pinecone index name | Set (`elucia-manuals`) |
-
-### Not Required for This Version
-
 | Variable | Description |
 |---|---|
-| `STRIPE_SECRET_KEY` | Stripe — payments deferred |
-| `STRIPE_WEBHOOK_SECRET` | Stripe — payments deferred |
-| `STRIPE_PRICE_ID` | Stripe — payments deferred |
-| `REDIS_URL` | Redis / Celery — async tasks not active |
+| `SECRET_KEY` | Django secret key — generate with `python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
+| `DJANGO_SETTINGS_MODULE` | `elucia.settings.development` locally, `elucia.settings.production` on Railway |
+| `DB_NAME` | PostgreSQL database name |
+| `DB_USER` | PostgreSQL user |
+| `DB_PASSWORD` | PostgreSQL password |
+| `DB_HOST` | PostgreSQL host (`localhost` locally, Supabase host in prod) |
+| `DB_PORT` | PostgreSQL port (`5432`) |
+| `OPENAI_API_KEY` | Used for embeddings (`text-embedding-3-small`) and completions (`gpt-4o-mini`) |
+| `PINECONE_API_KEY` | Pinecone API key |
+| `PINECONE_ENVIRONMENT` | Pinecone environment region |
+| `PINECONE_INDEX_NAME` | Pinecone index name — must match the index created below (`elucia-manuals`) |
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_KEY` | Supabase anon or service key |
 
-### Generating a Production `SECRET_KEY`
+### Deferred (not required)
 
-```bash
-python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
+| Variable | Notes |
+|---|---|
+| `STRIPE_SECRET_KEY` | Payments deferred to future version |
+| `STRIPE_WEBHOOK_SECRET` | Payments deferred |
+| `REDIS_URL` | Celery installed but async tasks not active |
 
 ---
 
-## Pinecone Index Setup
+## Pinecone index setup
 
-The Pinecone index must exist before ingesting manuals. Create it in the Pinecone dashboard with these settings:
+Create the index in the [Pinecone dashboard](https://app.pinecone.io) before ingesting:
 
 | Setting | Value |
 |---|---|
-| Index name | `elucia-manuals` (must match `PINECONE_INDEX_NAME`) |
+| Index name | `elucia-manuals` |
 | Dimensions | `1536` |
-| Metric | `cosine` |
+| Metric | cosine |
 | Type | Serverless |
+
+Each instrument gets its own namespace: `manual-<instrument_id>`.
 
 ---
 
-## Local Setup
+## Local setup
 
-### Prerequisites
-
-- Python 3.11+ (the existing venv was built on Python 3.9 which has been removed — see below)
-- PostgreSQL running locally
-- A Pinecone account with the index created above
-
-### 1. Recreate the Virtual Environment
-
-The existing `venv/` has broken symlinks because Python 3.9 is no longer installed. Recreate it:
+### 1. Create virtual environment
 
 ```bash
 cd backend
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements/development.txt
+pip install -r requirements/base.txt
 ```
 
-### 2. Configure Environment
+### 2. Configure environment
 
-Copy `.env.example` (or create `.env`) in `backend/` with the variables listed above. All required keys are already present in the current `.env`.
+```bash
+cp .env.example .env
+# edit .env with your keys
+export DJANGO_SETTINGS_MODULE=elucia.settings.development
+```
 
-### 3. Create the Database
+### 3. Create the database
 
 ```bash
 psql -U postgres -c "CREATE USER elucia_user WITH PASSWORD 'your_password';"
 psql -U postgres -c "CREATE DATABASE elucia_dev OWNER elucia_user;"
 ```
 
-### 4. Run Migrations
+Or point `DB_*` vars at your Supabase connection string directly.
+
+### 4. Run migrations
 
 ```bash
-cd backend
-source venv/bin/activate
 python manage.py migrate
 ```
 
-### 5. Create a Superuser (for Django Admin)
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6. Start the Development Server
+### 5. Start the server
 
 ```bash
 python manage.py runserver
+# → http://localhost:8000/api/
+# → http://localhost:8000/admin/
 ```
-
-API available at `http://localhost:8000/api/`  
-Admin at `http://localhost:8000/admin/`
 
 ---
 
-## Ingesting Manuals
+## Manual ingestion
 
-Ingestion: extract PDF text → chunk to ~500 tokens → embed with OpenAI `text-embedding-3-small` → upsert to Pinecone.
+Ingestion: extract PDF text → chunk to ~500 tokens → embed with `text-embedding-3-small` → upsert to Pinecone.
 
-### Step 1 — Create the Manual record in the database
+### Step 1 — Create the instrument record
 
-Use the Django Admin at `/admin/manuals/manual/add/` or the shell:
+Use Django Admin at `/admin/manuals/manual/add/` or the shell:
 
 ```bash
 python manage.py shell
@@ -125,162 +127,89 @@ python manage.py shell
 from apps.manuals.models import Manual
 
 Manual.objects.create(
-    name="Digitakt",
-    manufacturer="Elektron",
-    category="drum_machine",
-    pdf_path="../manuals/Elektron/Digitakt_Manual.pdf",
-)
-
-Manual.objects.create(
     name="Grandmother",
     manufacturer="Moog",
     category="synth",
     pdf_path="../manuals/Moog/Grandmother_ManualV2.pdf",
 )
-
-Manual.objects.create(
-    name="MPC One",
-    manufacturer="Akai",
-    category="sampler",
-    pdf_path="../manuals/AKAI/MPC/MPC_ONE.pdf",
-)
 ```
 
-Note the `id` of each record — you'll need it for the ingest command.
+Note the `id` — needed for step 2.
 
 ### Step 2 — Run the ingest command
 
-PDFs are located at `../manuals/` relative to `backend/`.
-
 ```bash
-# Elektron Digitakt (replace <id> with the database ID from step 1)
-python manage.py ingest_manual <id> ../manuals/Elektron/Digitakt_Manual.pdf
-
-# Moog Grandmother
-python manage.py ingest_manual <id> ../manuals/Moog/Grandmother_ManualV2.pdf
-
-# Akai MPC One
-python manage.py ingest_manual <id> ../manuals/AKAI/MPC/MPC_ONE.pdf
+python manage.py ingest_manual <id> path/to/manual.pdf
 ```
 
-Ingestion logs progress at `INFO` level. Each manual takes 2–5 minutes depending on page count (one OpenAI embedding call per chunk, rate-limited to Pinecone in batches of 100).
-
-### Re-ingesting a Manual
-
-The ingest command overwrites vectors in the same Pinecone namespace (`manual-<id>`). Re-running it on the same `manual_id` is safe — it will replace existing vectors.
+Logs progress at `INFO` level. Each manual takes 2–5 minutes depending on page count. Re-running the same `manual_id` is safe — it overwrites existing vectors in the namespace.
 
 ---
 
-## API Reference
+## API reference
 
 Base URL: `http://localhost:8000/api/`
 
 ### Auth
 
-| Method | Path | Description | Auth |
-|---|---|---|---|
-| `POST` | `/api/auth/register/` | Register a new user | None |
-| `POST` | `/api/auth/login/` | Login (session cookie) | None |
-| `POST` | `/api/auth/logout/` | Logout | Required |
-| `GET` | `/api/users/me/` | Current user profile | Required |
+| Method | Path | Auth |
+|---|---|---|
+| `POST` | `/api/auth/register/` | None |
+| `POST` | `/api/auth/login/` | None |
+| `POST` | `/api/auth/logout/` | Required |
+| `GET` | `/api/users/me/` | Required |
 
-**Register**
-```json
-POST /api/auth/register/
-{ "username": "jesse", "email": "jesse@example.com", "password": "...", "password_confirm": "..." }
-```
+### Instruments / Manuals
 
-**Login**
-```json
-POST /api/auth/login/
-{ "username": "jesse", "password": "..." }
-```
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/api/manuals/` | List — supports `?category=synth`, `?manufacturer=Moog` |
+| `GET` | `/api/manuals/:id/` | Detail |
 
----
+### Conversations & chat
 
-### Manuals
-
-| Method | Path | Description | Auth |
-|---|---|---|---|
-| `GET` | `/api/manuals/` | List all manuals | None |
-| `GET` | `/api/manuals/:id/` | Manual detail | None |
-
-Query params for list: `?category=synth`, `?manufacturer=Moog`, `?is_premium=false`, `?search=grandmother`
+| Method | Path | Notes |
+|---|---|---|
+| `GET` | `/api/conversations/` | User's conversations |
+| `POST` | `/api/conversations/` | `{ "manual": <id>, "title": "..." }` |
+| `GET` | `/api/conversations/:id/` | With messages |
+| `DELETE` | `/api/conversations/:id/` | |
+| `POST` | `/api/conversations/:id/messages/` | Triggers RAG pipeline — `{ "content": "..." }` |
 
 ---
 
-### Conversations & Chat
-
-| Method | Path | Description | Auth |
-|---|---|---|---|
-| `GET` | `/api/conversations/` | List user's conversations | Optional (session fallback) |
-| `POST` | `/api/conversations/` | Create new conversation | Optional |
-| `GET` | `/api/conversations/:id/` | Conversation detail with messages | Optional |
-| `DELETE` | `/api/conversations/:id/` | Delete conversation | Optional |
-| `POST` | `/api/conversations/:id/messages/` | Send a message, get AI response | Optional |
-
-**Create a conversation linked to a manual**
-```json
-POST /api/conversations/
-{ "manual": 1, "title": "Digitakt questions" }
-```
-
-**Send a message (triggers RAG pipeline)**
-```json
-POST /api/conversations/1/messages/
-{ "content": "How do I set up a basic beat on the Digitakt?" }
-```
-
-Response:
-```json
-{
-  "user_message": { "id": 1, "role": "user", "content": "...", "created_at": "..." },
-  "ai_message":   { "id": 2, "role": "assistant", "content": "...", "created_at": "..." }
-}
-```
-
-The `ai_message.content` is grounded in the manual. If the manual hasn't been ingested yet, the response will say so explicitly.
-
----
-
-## RAG Pipeline
-
-```
-User question
-  └─ OpenAI text-embedding-3-small  →  1536-dim vector
-       └─ Pinecone query (top 6, namespace=manual-<id>)
-            └─ Retrieved chunks (with page numbers in metadata)
-                 └─ GPT-4o-mini (system prompt + page-cited context)
-                      └─ Answer saved to Message, returned in response
-```
-
-Model choices:
-- **Embedding:** `text-embedding-3-small` — same model used at ingest time; changing it requires re-ingesting all manuals
-- **Completion:** `gpt-4o-mini` — cost-effective for factual Q&A; swap to `gpt-4o` in `query_pipeline.py` if answer quality needs improvement
-
----
-
-## Project Structure
+## Project structure
 
 ```
 backend/
 ├── apps/
-│   ├── accounts/        # User auth, UserProfile, UsageLog
-│   ├── manuals/         # Manual model + CRUD API
-│   │   └── management/commands/ingest_manual.py
-│   ├── chat/            # Conversation, Message, RAG-wired chat endpoint
-│   ├── rag/             # PDF processor, chunker, OpenAI client, Pinecone client, query pipeline
-│   │   ├── ingest.py            # ManualIngestion orchestrator
-│   │   ├── query_pipeline.py    # RAGQueryPipeline
-│   │   ├── openai_client.py     # OpenAI wrapper
-│   │   └── pinecone_client.py   # Pinecone wrapper
-│   └── payments/        # Empty — deferred for future version
+│   ├── accounts/           # User auth + UserProfile
+│   ├── manuals/            # Manual model + ingest_manual management command
+│   ├── chat/               # Conversation + Message models, chat endpoint
+│   ├── rag/                # PDF processor, chunker, OpenAI + Pinecone clients, query pipeline
+│   └── payments/           # Stub — deferred
 ├── elucia/
 │   └── settings/
-│       ├── base.py          # Shared config
-│       └── development.py   # PostgreSQL + external service keys
+│       ├── base.py
+│       ├── development.py
+│       └── production.py   # SECURE_PROXY_SSL_HEADER set for Railway
 ├── requirements/
 │   ├── base.txt
 │   └── development.txt
-└── .env                 # Gitignored — contains all secrets
+└── .env                    # Gitignored
 ```
+
+---
+
+## RAG pipeline
+
+```
+User question
+  └─ text-embedding-3-small  →  1536-dim vector
+       └─ Pinecone query (top 6, namespace=manual-<id>)
+            └─ Retrieved chunks (page + section metadata)
+                 └─ gpt-4o-mini (system prompt + cited context)
+                      └─ Answer saved to Message, returned in response
+```
+
+Swap `gpt-4o-mini` → `gpt-4o` in `apps/rag/query_pipeline.py` if answer quality needs improvement.
